@@ -1,0 +1,161 @@
+{
+  "name": "ICC mens t20 world cup analysis",
+  "nodes": [
+    {
+      "parameters": {
+        "promptType": "define",
+        "text": "={{ $json.chatInput }}",
+        "options": {
+          "systemMessage": "You are a data analyst assistant specializing in Google Sheets analysis. Your role is to:\n\n1. Read data from Google Sheets using the Google Sheets Tool\n2. Perform calculations and comparisons using the Calculator tool\n3. Analyze trends, profit/loss, and time-based comparisons\n4. Provide clear, detailed insights with specific numbers\n\nWhen analyzing data:\n- Always read the relevant sheet data first\n- Identify the correct columns and time periods\n- Perform accurate calculations for profit, loss, and percentage changes\n- Present findings in a clear, structured format with specific values"
+        }
+      },
+      "id": "2dcac018-69d3-4177-9dcc-cb39b83062da",
+      "name": "Google Sheets Analyst",
+      "type": "@n8n/n8n-nodes-langchain.agent",
+      "typeVersion": 3.1,
+      "position": [
+        544,
+        304
+      ]
+    },
+    {
+      "parameters": {
+        "descriptionType": "manual",
+        "toolDescription": "Reads data from Google Sheets. Use this tool to fetch spreadsheet data for analysis. You can specify the sheet name and range to read.",
+        "documentId": {
+          "__rl": true,
+          "value": "1uZ3me5-p2X2OU4IrXc_IRZqdXU2bk0jSHgKm49GSvNY",
+          "mode": "list",
+          "cachedResultName": "ICC Mens T20 Worldcup",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1uZ3me5-p2X2OU4IrXc_IRZqdXU2bk0jSHgKm49GSvNY/edit?usp=drivesdk"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": 896953297,
+          "mode": "list",
+          "cachedResultName": "ICC Mens T20 Worldcup.csv",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1uZ3me5-p2X2OU4IrXc_IRZqdXU2bk0jSHgKm49GSvNY/edit#gid=896953297"
+        },
+        "options": {}
+      },
+      "id": "3229d899-b39b-436c-9625-ec0a56793fc9",
+      "name": "Google Sheets Tool",
+      "type": "n8n-nodes-base.googleSheetsTool",
+      "typeVersion": 4.7,
+      "position": [
+        720,
+        512
+      ],
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "92NfMnQOj9yNndGm",
+          "name": "Google Sheets account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "options": {}
+      },
+      "id": "64c49189-686b-4bbf-9b12-31ba58c39b09",
+      "name": "Chat Trigger",
+      "type": "@n8n/n8n-nodes-langchain.chatTrigger",
+      "typeVersion": 1.4,
+      "position": [
+        224,
+        304
+      ],
+      "webhookId": "0ddecd1c-ea1a-47e2-828e-56b3767e4e79"
+    },
+    {
+      "parameters": {
+        "options": {}
+      },
+      "id": "78e24f75-6f7c-4912-b229-0bda6262fc37",
+      "name": "Google Gemini",
+      "type": "@n8n/n8n-nodes-langchain.lmChatGoogleGemini",
+      "typeVersion": 1,
+      "position": [
+        432,
+        512
+      ],
+      "credentials": {
+        "googlePalmApi": {
+          "id": "B0yJGMwURJw9i02M",
+          "name": "Google Gemini(PaLM) Api account 2"
+        }
+      }
+    },
+    {
+      "parameters": {},
+      "type": "@n8n/n8n-nodes-langchain.memoryBufferWindow",
+      "typeVersion": 1.3,
+      "position": [
+        560,
+        512
+      ],
+      "id": "2e27908e-ea37-43b1-b37f-e714386d8aed",
+      "name": "Simple Memory"
+    }
+  ],
+  "pinData": {},
+  "connections": {
+    "Google Sheets Tool": {
+      "ai_tool": [
+        [
+          {
+            "node": "Google Sheets Analyst",
+            "type": "ai_tool",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Chat Trigger": {
+      "main": [
+        [
+          {
+            "node": "Google Sheets Analyst",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Google Gemini": {
+      "ai_languageModel": [
+        [
+          {
+            "node": "Google Sheets Analyst",
+            "type": "ai_languageModel",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Simple Memory": {
+      "ai_memory": [
+        [
+          {
+            "node": "Google Sheets Analyst",
+            "type": "ai_memory",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "active": false,
+  "settings": {
+    "executionOrder": "v1",
+    "binaryMode": "separate",
+    "availableInMCP": false
+  },
+  "versionId": "973f085e-b669-4839-a29f-3861cfecb79f",
+  "meta": {
+    "templateCredsSetupCompleted": true,
+    "instanceId": "0db40022d37b8dc915995baf24af976f81edaf9f6642ec03c1e72c01d0e909c9"
+  },
+  "id": "ZvNyDVhvlz2VkWzL",
+  "tags": []
+}

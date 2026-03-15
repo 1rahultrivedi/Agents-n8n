@@ -1,0 +1,228 @@
+{
+  "name": "thesys ai analyzer",
+  "nodes": [
+    {
+      "parameters": {
+        "sessionIdType": "customKey",
+        "sessionKey": "={{ $json.chatInput }}"
+      },
+      "type": "@n8n/n8n-nodes-langchain.memoryBufferWindow",
+      "typeVersion": 1.3,
+      "position": [
+        160,
+        32
+      ],
+      "id": "283823a2-a237-4810-acc3-cfdd926d8c4a",
+      "name": "Simple Memory"
+    },
+    {
+      "parameters": {
+        "documentId": {
+          "__rl": true,
+          "value": "1uZ3me5-p2X2OU4IrXc_IRZqdXU2bk0jSHgKm49GSvNY",
+          "mode": "list",
+          "cachedResultName": "ICC Mens T20 Worldcup",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1uZ3me5-p2X2OU4IrXc_IRZqdXU2bk0jSHgKm49GSvNY/edit?usp=drivesdk"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": 896953297,
+          "mode": "list",
+          "cachedResultName": "ICC Mens T20 Worldcup.csv",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1uZ3me5-p2X2OU4IrXc_IRZqdXU2bk0jSHgKm49GSvNY/edit#gid=896953297"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.googleSheetsTool",
+      "typeVersion": 4.7,
+      "position": [
+        352,
+        32
+      ],
+      "id": "33ba779f-6516-4a65-8b79-db7d044a7b77",
+      "name": "Get row(s) in sheet in Google Sheets",
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "92NfMnQOj9yNndGm",
+          "name": "Google Sheets account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "respondWith": "text",
+        "responseBody": "={{$json}}",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.respondToWebhook",
+      "typeVersion": 1.5,
+      "position": [
+        480,
+        -208
+      ],
+      "id": "2f6a2333-b9ae-40a8-95ec-59a7eae6a084",
+      "name": "Respond to Webhook"
+    },
+    {
+      "parameters": {
+        "model": {
+          "__rl": true,
+          "value": "c1/openai/gpt-5/v-20250930",
+          "mode": "list",
+          "cachedResultName": "c1/openai/gpt-5/v-20250930"
+        },
+        "responsesApiEnabled": false,
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.lmChatOpenAi",
+      "typeVersion": 1.3,
+      "position": [
+        -64,
+        32
+      ],
+      "id": "efdc8df7-70b7-4f3c-a58f-4f249d075cd8",
+      "name": "OpenAI Chat Model",
+      "credentials": {
+        "openAiApi": {
+          "id": "ISABz61MFhqDT7sh",
+          "name": "OpenAi account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "public": true,
+        "initialMessages": "Hi there! 👋\nMy name is Rahul. How can I assist you today?",
+        "options": {
+          "responseMode": "streaming"
+        }
+      },
+      "type": "@n8n/n8n-nodes-langchain.chatTrigger",
+      "typeVersion": 1.4,
+      "position": [
+        -128,
+        -208
+      ],
+      "id": "6272aa6d-7ed8-42c3-a6e7-9762dc54165a",
+      "name": "When chat message received",
+      "webhookId": "601baf6b-edcf-4eb8-99c8-48547d92f96d"
+    },
+    {
+      "parameters": {
+        "options": {
+          "systemMessage": "You are a conversional assistant.\nRespond naturally to the user.\nDo not describe or explain formatting.\n\nBefore answering anything always refer to the google sheets tool",
+          "enableStreaming": true
+        }
+      },
+      "type": "@n8n/n8n-nodes-langchain.agent",
+      "typeVersion": 3.1,
+      "position": [
+        80,
+        -208
+      ],
+      "id": "a3121b85-d7db-4c20-9acb-43ed84a48a64",
+      "name": "AI Agent"
+    },
+    {
+      "parameters": {
+        "content": "*Use Thesys dev*\n1. Go to the (https://thesys.dev/n8n/)\n2. Create an account and create the API and pasete in the OpenAI Chat Model Node \n3. Use this Open AI Model :- \n**\"c1/openai/gpt-5/v-20250930\"**",
+        "height": 608,
+        "width": 368
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "position": [
+        -544,
+        -240
+      ],
+      "typeVersion": 1,
+      "id": "47fa4fbd-945b-4b82-af5e-1b79eae3d38d",
+      "name": "Sticky Note"
+    },
+    {
+      "parameters": {
+        "content": "*Application*\n### 1️⃣ Smart Data Analysis Assistant\n### - Using thesys UI chat, user directly enter the prompt and AI automatically analyzes Google Sheets data.\n\n### 2️⃣ Interactive Chat-Based Data Exploration\n### Instead of:-\n- Writing complex Excel formulas\n- Applying filters manually\n**User just types:** \n“Compare sales of last 3 months”\n\n### 3️⃣ Automated Report Generation\n### **Agent automatically:**\n- Generate tje Summary \n- Take Key insights \n- Trends identify \n**Example:**\n“Give me complete performance summary”\nAI ready-made report .",
+        "height": 608,
+        "width": 368
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "position": [
+        688,
+        -240
+      ],
+      "typeVersion": 1,
+      "id": "23e9df06-d7bb-45ae-a617-c776df95843b",
+      "name": "Sticky Note1"
+    }
+  ],
+  "pinData": {},
+  "connections": {
+    "Simple Memory": {
+      "ai_memory": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "ai_memory",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Get row(s) in sheet in Google Sheets": {
+      "ai_tool": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "ai_tool",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "OpenAI Chat Model": {
+      "ai_languageModel": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "ai_languageModel",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "When chat message received": {
+      "main": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "AI Agent": {
+      "main": [
+        [
+          {
+            "node": "Respond to Webhook",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "active": false,
+  "settings": {
+    "executionOrder": "v1",
+    "binaryMode": "separate",
+    "availableInMCP": false
+  },
+  "versionId": "686bb5d6-791f-4dbb-a357-ebc2e9b49232",
+  "meta": {
+    "templateCredsSetupCompleted": true,
+    "instanceId": "0db40022d37b8dc915995baf24af976f81edaf9f6642ec03c1e72c01d0e909c9"
+  },
+  "id": "LLRSQbNk1tVP7k8x",
+  "tags": []
+}
